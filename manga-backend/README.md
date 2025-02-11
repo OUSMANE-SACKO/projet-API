@@ -7,7 +7,7 @@ Pour installer le projet, suivez les étapes ci-dessous :
 1. Clonez le dépôt :
   ```bash
   git clone
-  https://github.com/WBoogey/projetFlask.git
+  https://github.com/OUSMANE-SACKO/projet-Graphql.git
   ```
 2. Accédez au répertoire du projet :
   ```bash
