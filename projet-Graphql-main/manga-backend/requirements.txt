@@ -1,0 +1,8 @@
+Flask
+Flask-PyMongo
+faker
+PyJWT
+bcrypt
+pytest
+Flask-CORS
+mongomock

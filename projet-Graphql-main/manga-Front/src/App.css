@@ -1,0 +1,196 @@
+/* Styles généraux pour la page */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f8f8;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row; /* Garder la sidebar à gauche */
+  min-height: 100vh;
+}
+
+/* App container */
+.app {
+  display: flex;
+  flex: 1;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #181818;
+  color: white;
+  height: 100vh;
+  position: fixed; /* Fixe la sidebar à gauche */
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  padding-left: 10px;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Sidebar Link */
+.sidebar-link {
+  display: flex;
+  align-items: center; /* Aligne l'icône et le texte horizontalement */
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  color: #ffffff;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  width: 100%;
+  border-radius: 6px;
+  justify-content: flex-start; /* S'assurer que tout est aligné à gauche */
+}
+/* Effet au survol */
+.sidebar-link:hover {
+  background-color: #282828;
+}
+
+/* Icone dans le sidebar */
+.sidebar-icon {
+  font-size: 1.5rem;
+  margin-right: 12px; /* Donne un espace entre l'icône et le texte */
+  flex-shrink: 0; /* Empêche l'icône de se réduire si l'espace est limité */
+}
+
+/* Contenu */
+.content {
+  flex: 1;
+  margin-left: 250px; /* Décale le contenu pour éviter que ça passe sous la sidebar */
+  padding: 20px;
+  overflow-y: auto; /* Permet d'ajouter un scroll si nécessaire */
+}
+
+/* Titre */
+h1, h2, h3 {
+  color: #222;
+}
+
+/* Centrage du contenu principal */
+.container {
+  max-width: 1200px;
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Grille de manga */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  justify-items: center;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Styliser la carte de manga */
+.manga-card {
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.manga-card:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.manga-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #ddd;
+}
+
+.manga-card h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.manga-card p {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+/* Barre de recherche */
+form {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+input[type="text"] {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 0.375rem;
+  width: 100%;
+  margin-right: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #ff7a00;
+  outline: none;
+}
+
+button {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  background-color: #ff7a00;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #e06f00;
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.5);
+}
