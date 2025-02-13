@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import MangaCard from "../components/MangaCard";
+
 import { searchManga, getPopularMangas, getRecentMangas } from "../services/MangaApi";
 
 function Home() {
