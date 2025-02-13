@@ -1,12 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
 import { FiHome, FiTrendingUp, FiClock, FiSearch } from "react-icons/fi";
-=======
-import { FiHome, FiTrendingUp, FiClock, FiSearch, FiBook  } from "react-icons/fi";
-import { MdLibraryBooks } from "react-icons/md"; 
-
->>>>>>> 0420fe0dd49d77c2a1ca635ff31bce885f384832
 
 const Sidebar = () => {
   return (
@@ -16,10 +10,6 @@ const Sidebar = () => {
       {/* Navigation Links */}
       <nav className="flex flex-col space-y-3">
         <SidebarLink to="/" icon={<FiHome size={24} />} label="Accueil" />
-<<<<<<< HEAD
-=======
-        <SidebarLink to="/collection" icon={<MdLibraryBooks   size={24} />} label="Collection" />
->>>>>>> 0420fe0dd49d77c2a1ca635ff31bce885f384832
         <SidebarLink to="/popular" icon={<FiTrendingUp size={24} />} label="Populaires" />
         <SidebarLink to="/recent" icon={<FiClock size={24} />} label="Nouveautés" />
         <SidebarLink to="/search" icon={<FiSearch size={24} />} label="Rechercher" />
@@ -40,9 +30,6 @@ const SidebarLink = ({ to, icon, label }) => {
   );
 };
 
-<<<<<<< HEAD
   
 
-=======
->>>>>>> 0420fe0dd49d77c2a1ca635ff31bce885f384832
 export default Sidebar;

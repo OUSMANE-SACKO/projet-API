@@ -66,7 +66,11 @@ function Home() {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
       <div className="container mx-auto p-4">
+<<<<<<< HEAD
         <h1 className="text-3xl font-bold text-center mb-6">Manga Collection</h1>
+=======
+        <h1 className="text-3xl font-bold text-center mb-6">Manga Collec</h1>
+>>>>>>> 0420fe0dd49d77c2a1ca635ff31bce885f384832
         <SearchBar onSearch={handleSearch} />
         
         {loading && <p className="text-center">Loading...</p>}
