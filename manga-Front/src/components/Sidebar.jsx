@@ -1,8 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FiHome, FiTrendingUp, FiClock, FiSearch, FiBook  } from "react-icons/fi";
-import { MdLibraryBooks } from "react-icons/md"; 
-
+import { FiHome, FiTrendingUp, FiClock, FiSearch } from "react-icons/fi";
 
 const Sidebar = () => {
   return (
@@ -12,7 +10,6 @@ const Sidebar = () => {
       {/* Navigation Links */}
       <nav className="flex flex-col space-y-3">
         <SidebarLink to="/" icon={<FiHome size={24} />} label="Accueil" />
-        <SidebarLink to="/collection" icon={<MdLibraryBooks   size={24} />} label="Collection" />
         <SidebarLink to="/popular" icon={<FiTrendingUp size={24} />} label="Populaires" />
         <SidebarLink to="/recent" icon={<FiClock size={24} />} label="Nouveautés" />
         <SidebarLink to="/search" icon={<FiSearch size={24} />} label="Rechercher" />
@@ -32,5 +29,7 @@ const SidebarLink = ({ to, icon, label }) => {
     </Link>
   );
 };
+
+  
 
 export default Sidebar;
