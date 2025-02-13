@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import SearchBar from "../components/searchBar";
 import MangaCard from "../components/MangaCard";
-
 import { searchManga, getPopularMangas, getRecentMangas } from "../services/MangApi";
+import useAuthStore from "../store/auth"; // Assurez-vous que votre store d'authentification est correctement importé
 
 function Home() {
+  const { user } = useAuthStore((state) => state); // Récupérer l'utilisateur du store d'authentification
   const [mangas, setMangas] = useState([]);
   const [popularMangas, setPopularMangas] = useState([]);
   const [recentMangas, setRecentMangas] = useState([]);
@@ -74,17 +75,16 @@ function Home() {
         {mangas.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 justify-items-center">
             {mangas.map((manga) => (
-              <MangaCard key={manga.id} manga={manga} />
+              <MangaCard key={manga.id} manga={manga} user={user} />
             ))}
           </div>
         ) : (
           <>
-
             <section className="mt-8">
               <h2 className="text-2xl font-semibold mb-4">Nouveautés</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
                 {recentMangas.map((manga) => (
-                  <MangaCard key={manga.id} manga={manga} />
+                  <MangaCard key={manga.id} manga={manga} user={user} /> 
                 ))}
               </div>
             </section>
@@ -93,12 +93,10 @@ function Home() {
               <h2 className="text-2xl font-semibold mb-4">Mangas Populaires</h2>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
                 {popularMangas.map((manga) => (
-                  <MangaCard key={manga.id} manga={manga} />
+                  <MangaCard key={manga.id} manga={manga} user={user} /> 
                 ))}
               </div>
             </section>
-
-
           </>
         )}
 
