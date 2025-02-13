@@ -4,6 +4,7 @@ import MangaDetail from "./Views/MangaDetails";
 import Sidebar from "./components/Sidebar";
 import Login from "./Views/Login";
 import Register from "./Views/Register";
+import CollectionPage from "./Views/CollectionPage"; // Importer la CollectionPage
 import useAuthStore from "./store/auth";
 import "./App.css";
 
@@ -23,7 +24,8 @@ function App() {
             <Route path="/manga/:id" element={<MangaDetail />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-
+            {/* Route pour la page Collection */}
+            <Route path="/collection" element={<CollectionPage />} />
             {/* Protéger certaines routes */}
             {user && <Route path="/dashboard" element={<h1>Tableau de Bord</h1>} />}
           </Routes>
