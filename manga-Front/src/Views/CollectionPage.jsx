@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MangaCard from "../components/MangaCard";
-import useAuthStore from "../store/auth";
+import useAuthStore from "../Store/auth";
 
 function CollectionPage() {
   const [activeTab, setActiveTab] = useState("collection");

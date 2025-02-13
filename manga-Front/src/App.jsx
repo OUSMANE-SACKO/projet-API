@@ -5,7 +5,7 @@ import Sidebar from "./components/Sidebar";
 import Login from "./Views/Login";
 import Register from "./Views/Register";
 import CollectionPage from "./Views/CollectionPage"; // Importer la CollectionPage
-import useAuthStore from "./store/auth";
+import useAuthStore from "./Store/auth";
 import "./App.css";
 
 function App() {

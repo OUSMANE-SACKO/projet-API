@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import SearchBar from "../components/searchBar";
 import MangaCard from "../components/MangaCard";
 import { searchManga, getPopularMangas, getRecentMangas } from "../services/MangApi";
-import useAuthStore from "../store/auth"; // Assurez-vous que votre store d'authentification est correctement importé
+import useAuthStore from "../Store/auth"; // Assurez-vous que votre store d'authentification est correctement importé
 
 function Home() {
   const { user } = useAuthStore((state) => state); // Récupérer l'utilisateur du store d'authentification
