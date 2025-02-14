@@ -1,110 +1,126 @@
 import { useState, useEffect } from "react";
-import SearchBar from "../components/searchBar";
-import MangaCard from "../components/MangaCard";
 import { searchManga, getPopularMangas, getRecentMangas } from "../services/MangApi";
-import useAuthStore from "../Store/auth"; // Assurez-vous que votre store d'authentification est correctement importé
+import MangaCard from "../components/MangaCard";
+import SearchBar from "../components/searchBar";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Toast from "../components/Toast";
 
-function Home() {
-  const { user } = useAuthStore((state) => state); // Récupérer l'utilisateur du store d'authentification
+export default function Home() {
   const [mangas, setMangas] = useState([]);
   const [popularMangas, setPopularMangas] = useState([]);
   const [recentMangas, setRecentMangas] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchMangas = async () => {
-      setLoading(true);
-      try {
-        const popular = await getPopularMangas();
-        const recent = await getRecentMangas();
-
-        setPopularMangas(popular.data.map(manga => ({
-          id: manga.id,
-          attributes: {
-            title: manga.attributes.title.en || "Titre inconnu",
-            description: manga.attributes.description.en || "Aucune description",
-            cover: manga.relationships.find(rel => rel.type === "cover_art")?.attributes?.fileName || null
-          }
-        })));
-
-        setRecentMangas(recent.data.map(manga => ({
-          id: manga.id,
-          attributes: {
-            title: manga.attributes.title.en || "Titre inconnu",
-            description: manga.attributes.description.en || "Aucune description",
-            cover: manga.relationships.find(rel => rel.type === "cover_art")?.attributes?.fileName || null
-          }
-        })));
-
-      } catch (error) {
-        console.error("Error fetching mangas:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchMangas();
+    fetchInitialData();
   }, []);
 
-  const handleSearch = async (query) => {
+  const fetchInitialData = async () => {
     setLoading(true);
     try {
-      const data = await searchManga(query);
-      setMangas(data.data.map(manga => ({
-        id: manga.id,
-        attributes: {
-          title: manga.attributes.title.en || "Titre inconnu",
-          description: manga.attributes.description.en || "Aucune description",
-          cover: manga.relationships.find(rel => rel.type === "cover_art")?.attributes?.fileName || null
-        }
-      })));
-    } catch (error) {
-      console.error("Search error:", error);
+      const [popular, recent] = await Promise.all([
+        getPopularMangas(),
+        getRecentMangas()
+      ]);
+      setPopularMangas(popular);
+      setRecentMangas(recent);
+    } catch (err) {
+      setError("Erreur lors du chargement des données");
+      console.error("Error fetching initial data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = async (query) => {
+    if (!query.trim()) {
+      setMangas([]);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const results = await searchManga(query);
+      setMangas(results);
+    } catch (err) {
+      setError("Erreur lors de la recherche");
+      console.error("Search error:", err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold text-center mb-6">Manga Collec</h1>
-        <SearchBar onSearch={handleSearch} />
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
+        Manga Collec
+      </h1>
+      
+      <SearchBar onSearch={handleSearch} />
 
-        {loading && <p className="text-center">Loading...</p>}
+      {error && (
+        <Toast 
+          message={error} 
+          type="error" 
+          onClose={() => setError(null)} 
+        />
+      )}
 
-        {mangas.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6 justify-items-center">
-            {mangas.map((manga) => (
-              <MangaCard key={manga.id} manga={manga} user={user} />
-            ))}
-          </div>
-        ) : (
-          <>
-            <section className="mt-8">
-              <h2 className="text-2xl font-semibold mb-4">Nouveautés</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
-                {recentMangas.map((manga) => (
-                  <MangaCard key={manga.id} manga={manga} user={user} /> 
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          {mangas.length > 0 ? (
+            <div className="mt-8">
+              <h2 className="text-2xl font-semibold mb-6">Résultats de recherche</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {mangas.map((manga) => (
+                  <MangaCard 
+                    key={manga.id} 
+                    manga={manga}
+                    withHover={true}
+                  />
                 ))}
               </div>
-            </section>
+            </div>
+          ) : (
+            <>
+              <section className="mt-12">
+                <h2 className="text-2xl font-semibold mb-6 flex items-center">
+                  <span className="mr-2">🆕</span>
+                  Nouveautés
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {recentMangas.map((manga) => (
+                    <MangaCard 
+                      key={manga.id} 
+                      manga={manga}
+                      withHover={true}
+                    />
+                  ))}
+                </div>
+              </section>
 
-            <section className="mt-8">
-              <h2 className="text-2xl font-semibold mb-4">Mangas Populaires</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center">
-                {popularMangas.map((manga) => (
-                  <MangaCard key={manga.id} manga={manga} user={user} /> 
-                ))}
-              </div>
-            </section>
-          </>
-        )}
-
-        {/* Exemple de bouton ici */}
-        <button className="mt-8">Voir Plus</button>
-      </div>
+              <section className="mt-16">
+                <h2 className="text-2xl font-semibold mb-6 flex items-center">
+                  <span className="mr-2">🔥</span>
+                  Mangas Populaires
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {popularMangas.map((manga) => (
+                    <MangaCard 
+                      key={manga.id} 
+                      manga={manga}
+                      withHover={true}
+                    />
+                  ))}
+                </div>
+              </section>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
-
-export default Home;

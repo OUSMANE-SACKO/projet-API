@@ -13,11 +13,7 @@ Pour installer le projet, suivez les étapes ci-dessous :
   ```bash
   cd manga-backend
   ```
-3. Installez les dépendances :
-  ```bash
-  pip install -r requirements.txt
-  ```
-4. Activez l'environement virtuel venv:
+3. Activez l'environement virtuel venv:
   ```bash
   python3 -m venv venv
   source venv/bin/activate
@@ -25,10 +21,19 @@ Pour installer le projet, suivez les étapes ci-dessous :
 
 
 ## Lancement du projet
+pour ce register avec un utilisatuers par défaut:
+```
+"username" : 'testUser'
+"email": "testuser@example.com",
+"password": "securepassword"
+```
 
 Pour lancer le projet, exécutez la commande suivante :
 ```bash
+python generate_fake_mangas.py
 python -m run
+ou
+flask run
 ```
 Crée Par  Kilian Izatoola​,
 Ousmane Sacko,

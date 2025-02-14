@@ -1,139 +1,79 @@
-// CollectionPage.jsx
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { getUserCollection } from "../services/MangApi";
 import MangaCard from "../components/MangaCard";
+import LoadingSpinner from "../components/LoadingSpinner";
+import Toast from "../components/Toast";
 import useAuthStore from "../Store/auth";
 
-function CollectionPage() {
-  const [activeTab, setActiveTab] = useState("collection");
+export default function Collection() {
   const [collection, setCollection] = useState([]);
-  const [completer, setCompleter] = useState([]);
-  const [envie, setEnvie] = useState([]);
-  const navigate = useNavigate();
-
-  const user = useAuthStore((state) => state.user);
-
-  const fetchCollections = () => {
-    console.log("Fetching collections..."); // Ajout de logs pour déboguer
-    setCollection(JSON.parse(localStorage.getItem("mangaCollection")) || []);
-    setCompleter(JSON.parse(localStorage.getItem("mangaCompleter")) || []);
-    setEnvie(JSON.parse(localStorage.getItem("mangaEnvie")) || []);
-  };
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
 
   useEffect(() => {
-    if (!user) {
-      return;
+    if (isAuthenticated()) {
+      fetchCollection();
     }
-    fetchCollections();
-  }, [user]);
+  }, []);
 
-  useEffect(() => {
-    console.log("Active Tab Changed:", activeTab); // Vérifier l'état du tab
-    fetchCollections();
-  }, [activeTab]); // Ajout d'une dépendance pour mettre à jour les collections lors du changement d'onglet
-
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
-
-  const removeFromCategory = (id, category) => {
-    let updatedList;
-    if (category === "collection") {
-      updatedList = collection.filter(manga => manga.id !== id);
-      setCollection(updatedList);
-      localStorage.setItem("mangaCollection", JSON.stringify(updatedList));
-    } else if (category === "completer") {
-      updatedList = completer.filter(manga => manga.id !== id);
-      setCompleter(updatedList);
-      localStorage.setItem("mangaCompleter", JSON.stringify(updatedList));
-    } else if (category === "envie") {
-      updatedList = envie.filter(manga => manga.id !== id);
-      setEnvie(updatedList);
-      localStorage.setItem("mangaEnvie", JSON.stringify(updatedList));
+  const fetchCollection = async () => {
+    try {
+      setLoading(true);
+      const userCollection = await getUserCollection();
+      setCollection(userCollection);
+    } catch (err) {
+      setError("Erreur lors du chargement de votre collection");
+      console.error("Error fetching collection:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (!user) {
+  if (!isAuthenticated()) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-100 p-6">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-          <h2 className="text-2xl font-bold mb-4">Bienvenue !</h2>
-          <p className="text-gray-600 mb-6">Connectez-vous ou inscrivez-vous pour accéder à votre collection de mangas.</p>
-          <div className="space-y-4">
-            <button 
-              className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
-              onClick={() => navigate("/login")}
-            >
-              Se connecter
-            </button>
-            <button 
-              className="w-full py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300"
-              onClick={() => navigate("/register")}
-            >
-              S'inscrire
-            </button>
-          </div>
-        </div>
+      <div className="container mx-auto px-4 py-8 text-center">
+        <h1 className="text-2xl font-bold mb-4">Accès non autorisé</h1>
+        <p>Veuillez vous connecter pour accéder à votre collection.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6">Ma Collection</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+        Ma Collection
+      </h1>
 
-      <div className="flex space-x-4 mb-6">
-        <button 
-          onClick={() => handleTabChange("collection")}
-          className={`px-4 py-2 rounded ${activeTab === "collection" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
-        >
-          Collection
-        </button>
-        <button
-          onClick={() => handleTabChange("completer")}
-          className={`px-4 py-2 rounded ${activeTab === "completer" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
-        >
-          Compléter
-        </button>
-        <button
-          onClick={() => handleTabChange("envie")}
-          className={`px-4 py-2 rounded ${activeTab === "envie" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
-        >
-          Envie
-        </button>
-      </div>
+      {error && (
+        <Toast 
+          message={error} 
+          type="error" 
+          onClose={() => setError(null)} 
+        />
+      )}
 
-      {activeTab === "collection" && (
-        <MangaList mangas={collection} removeFromCategory={removeFromCategory} category="collection" />
-      )}
-      {activeTab === "completer" && (
-        <MangaList mangas={completer} removeFromCategory={removeFromCategory} category="completer" />
-      )}
-      {activeTab === "envie" && (
-        <MangaList mangas={envie} removeFromCategory={removeFromCategory} category="envie" />
+      {loading ? (
+        <LoadingSpinner />
+      ) : collection.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-xl text-gray-600 mb-4">Votre collection est vide.</p>
+          <p className="text-gray-500">
+            Commencez à ajouter des mangas depuis la page d'accueil !
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {collection.map((manga) => (
+            <MangaCard 
+              key={manga.id} 
+              manga={manga} 
+              inCollection={true}
+              onRemove={fetchCollection}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
 }
-
-const MangaList = ({ mangas, removeFromCategory, category }) => (
-  mangas.length === 0 ? (
-    <p className="text-gray-500">Aucun manga dans cette catégorie.</p>
-  ) : (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {mangas.map((manga) => (
-        <div key={manga.id} className="relative">
-          <MangaCard manga={manga} />
-          <button 
-            className="absolute top-2 right-2 bg-red-500 text-white px-3 py-1 rounded"
-            onClick={() => removeFromCategory(manga.id, category)}
-          >
-            Retirer
-          </button>
-        </div>
-      ))}
-    </div>
-  )
-);
-
-export default CollectionPage;

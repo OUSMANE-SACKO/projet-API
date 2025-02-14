@@ -1,38 +1,32 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import useAuthStore from "../Store/auth"; // Vérifie bien le chemin
+import { useNavigate, Link } from "react-router-dom";
+import useAuthStore from "../Store/auth";
+import { registerUser } from "../services/MangApi";
+import Toast from "../components/Toast";
 
 export default function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
-  const Base_url=import.meta.env.VITE_BASE_URL
-
   const handleRegister = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(`${Base_url}/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      });
+    setError("");
+    setLoading(true);
 
-      if (response.ok) {
-        const userData = await response.json();
-        login(userData);
-        navigate("/");
-      } else {
-        const errorData = await response.json();
-        alert(errorData.error || "L'inscription a échoué");
-      }
-    } catch (error) {
-      console.error("Erreur d'inscription:", error);
-      alert("Une erreur s'est produite lors de l'inscription");
+    try {
+      const response = await registerUser(username, email, password);
+      login(response.user, response.token);
+      navigate("/");
+    } catch (err) {
+      setError("Échec de l'inscription. Veuillez réessayer.");
+      console.error("Registration error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 

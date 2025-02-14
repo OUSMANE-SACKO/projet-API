@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from "react";
 
-function SearchBar({ onSearch }) {
-  const [query, setQuery] = useState('');
+export default function SearchBar({ onSearch }) {
+  const [query, setQuery] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -9,19 +9,22 @@ function SearchBar({ onSearch }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex justify-center mb-6">
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Rechercher un manga..."
-        className="px-4 py-2 border rounded-l-lg w-1/2 text-lg"
-      />
-      <button type="submit" className="bg-orange-500 text-white px-4 py-2 rounded-r-lg hover:bg-orange-600">
-        Rechercher
-      </button>
+    <form onSubmit={handleSubmit} className="mb-8">
+      <div className="flex">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Rechercher un manga..."
+          className="flex-grow p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition-colors"
+        >
+          Rechercher
+        </button>
+      </div>
     </form>
   );
 }
-
-export default SearchBar;
