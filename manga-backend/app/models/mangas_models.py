@@ -7,6 +7,9 @@ class Manga:
 
     @staticmethod
     def create_manga(title, description, release_date, genre_id, cover_image):
+        """
+        This method is ONLY used by the script to generate mangas.
+        """
         manga = {
             "title": title,
             "description": description,
@@ -23,6 +26,9 @@ class Manga:
 
     @staticmethod
     def get_all_mangas():
+        """
+        Retrieves all mangas from the database.
+        """
         mangas = list(Manga.mongo.db.mangas.find())
         for manga in mangas:
             manga["_id"] = str(manga["_id"])
