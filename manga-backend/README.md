@@ -23,10 +23,6 @@ Pour installer le projet, suivez les étapes ci-dessous :
   source venv/bin/activate
   ```
 
-## Structure du projet
-
-- `templates` : Contient les fichiers HTML.
-- `static` : Contient les fichiers JavaScript (js) et CSS.
 
 ## Lancement du projet
 
@@ -34,3 +30,10 @@ Pour lancer le projet, exécutez la commande suivante :
 ```bash
 python -m run
 ```
+Crée Par
+ ​
+Kilian Izatoola​
+Ousmane Sacko ​
+Ehoura Yvann ​
+Samake Amadou Aliou ​
+Daniel Komoe​
