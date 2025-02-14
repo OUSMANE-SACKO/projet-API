@@ -9,10 +9,12 @@ export default function Register() {
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
+  const Base_url=import.meta.env.VITE_BASE_URL
+
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/api/register", { // Vérifie bien l'URL de l'API
+      const response = await fetch(`${Base_url}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
