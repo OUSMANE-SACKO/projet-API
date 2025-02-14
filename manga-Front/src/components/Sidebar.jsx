@@ -8,9 +8,6 @@ const Sidebar = () => {
       {/* Navigation Links */}
       <nav className="flex flex-col space-y-3">
         <SidebarLink to="/" icon={<FiHome size={24} />} label="Accueil" />
-        <SidebarLink to="/popular" icon={<FiTrendingUp size={24} />} label="Populaires" />
-        <SidebarLink to="/recent" icon={<FiClock size={24} />} label="Nouveautés" />
-        <SidebarLink to="/search" icon={<FiSearch size={24} />} label="Rechercher" />
         <SidebarLink to="/collection" icon={<FiBook size={24} />} label="Collection" /> {/* Collection ajouté */}
       </nav>
     </div>

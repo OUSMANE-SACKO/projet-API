@@ -23,6 +23,9 @@ Collection.mongo = mongo
 # Enable CORS
 CORS(app)
 
+# Enabling CORS for specific origin
+CORS(app, origins="http://localhost:5174", methods=["GET", "POST"], allow_headers=["Content-Type"])
+
 # Register blueprints
 from app.routes.user_routes import user_bp
 from app.routes.mangas_routes import manga_bp

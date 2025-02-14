@@ -43,30 +43,32 @@ export default function Register() {
         className="bg-white p-6 rounded-lg shadow-md w-96"
       >
         <h2 className="text-2xl font-bold mb-4 text-center">Inscription</h2>
-        <input
-          type="text"
-          placeholder="Nom d'utilisateur"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="w-full p-2 border rounded mb-2"
-          required
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 border rounded mb-2"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 border rounded mb-2"
-          required
-        />
+<input
+  type="text"
+  placeholder="Nom d'utilisateur"
+  value={username}
+  onChange={(e) => setUsername(e.target.value)}
+  style={{ width: "100%", padding: "12px", height: "40px", fontSize: "16px", borderRadius: "8px", border: "1px solid #ccc" }}
+  required
+/>
+<input
+  type="email"
+  placeholder="Email"
+  value={email}
+  onChange={(e) => setEmail(e.target.value)}
+  style={{ width: "100%", padding: "12px", height: "40px", fontSize: "16px", borderRadius: "8px", border: "1px solid #ccc" }}
+  required
+/>
+<input
+  type="password"
+  placeholder="Mot de passe"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  style={{ width: "100%", padding: "12px", height: "40px", fontSize: "16px", borderRadius: "8px", border: "1px solid #ccc" }}
+  required
+/>
+
+
         <button
           type="submit"
           className="w-full bg-green-500 text-white p-2 rounded mt-2"
