@@ -30,8 +30,7 @@ Pour lancer le projet, exécutez la commande suivante :
 ```bash
 python -m run
 ```
-Crée Par  Kilian Izatoola​
-Ousmane Sacko ​
-Ehoura Yvann ​
-Samake Amadou Aliou ​
-Daniel Komoe​
+Crée Par  Kilian Izatoola​,
+Ousmane Sacko,
+Ehoura Yvann,
+Samake Amadou Aliou et Daniel Komoe​
